@@ -22,11 +22,11 @@ jobs:
         run: |
           ssh-keyscan -H 3.16.42.94 >> ~/.ssh/known_hosts
 
-      - name: Copy PHP files to Apache directory
+      - name: Copy PHP files to home directory
         run: |
-          scp -r * ubuntu@3.16.42.94:/var/www/html/
+          scp -r * ubuntu@3.16.42.94:/home/ubuntu/
         working-directory: ${{ github.workspace }}
 
-      - name: Restart Apache
+      - name: Move files to Apache directory and restart Apache
         run: |
-          ssh ubuntu@3.16.42.94 'sudo systemctl restart apache2'
+          ssh ubuntu@3.16.42.94 'sudo mv /home/ubuntu/* /var/www/html/ && sudo systemctl restart apache2'
